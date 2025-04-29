@@ -27,44 +27,58 @@ class UsuarioModel {
         }
     }
 
-    static async createUsuario(usuarioData) {
+    static async createUsuario(data) {
         try {
-            if (!usuarioData || typeof usuarioData !== 'object') {
-                throw new Error('Datos del usuario no válidos');
-            }
-
-            const { Nombre = '', Rol = '', Email = '', Contrasena = '', Estado = 'Activo' } = usuarioData;
-
+            // Verificar si los datos están en usuarioData o directamente en el cuerpo
+            const usuarioData = data.usuarioData || data;
+    
+            // Extraer datos con valores por defecto
+            const Nombre = usuarioData.Nombre || '';
+            const Rol = usuarioData.Rol || '';
+            const Email = usuarioData.Email || '';
+            const Contrasena = usuarioData.Contrasena || '';
+            const Estado = usuarioData.Estado || 'Activo';
+    
+            // Validar campos obligatorios
             if (!Nombre.trim() || !Rol.trim() || !Email.trim() || !Contrasena.trim()) {
                 throw new Error('Nombre, Rol, Email y Contrasena son campos obligatorios');
             }
-
+    
+            // Insertar el usuario en la base de datos
             const [result] = await db.query(
                 'INSERT INTO Usuario (Nombre, Rol, Email, Contrasena, Estado, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())',
                 [Nombre, Rol, Email, Contrasena, Estado]
             );
+    
             return result.insertId;
         } catch (error) {
             throw error;
         }
     }
 
-    static async updateUsuario(id, usuarioData) {
+    static async updateUsuario(id, data) {
         try {
-            if (!usuarioData || typeof usuarioData !== 'object') {
-                throw new Error('Datos del usuario no válidos');
-            }
-
-            const { Nombre = '', Rol = '', Email = '', Contrasena = null, Estado = 'Activo' } = usuarioData;
-
+            // Verificar si los datos están en usuarioData o directamente en el cuerpo
+            const usuarioData = data.usuarioData || data;
+    
+            // Extraer datos con valores por defecto
+            const Nombre = usuarioData.Nombre || '';
+            const Rol = usuarioData.Rol || '';
+            const Email = usuarioData.Email || '';
+            const Contrasena = usuarioData.Contrasena || null; // Contraseña puede ser opcional
+            const Estado = usuarioData.Estado || 'Activo';
+    
+            // Validar campos obligatorios
             if (!Nombre.trim() || !Rol.trim() || !Email.trim()) {
                 throw new Error('Nombre, Rol y Email son campos obligatorios');
             }
-
+    
+            // Actualizar el usuario en la base de datos
             await db.query(
                 'UPDATE Usuario SET Nombre = ?, Rol = ?, Email = ?, Contrasena = ?, Estado = ?, updated_at = NOW() WHERE UsuarioID = ?',
                 [Nombre, Rol, Email, Contrasena, Estado, id]
             );
+    
             return true;
         } catch (error) {
             throw error;
