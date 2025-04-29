@@ -58,20 +58,15 @@ class ClienteModel {
     // Actualizar un cliente
     static async updateCliente(id, data) {
         try {
-            if (!data || !data.clienteData) {
-                throw new Error('No se proporcionaron datos para actualizar');
-            }
+            // Verificar si los datos están en clienteData o directamente en el cuerpo
+            const clienteData = data.clienteData || data;
     
-            const clienteData = data.clienteData;
-    
-            // Extraer datos con valores por defecto
-            const nombre = clienteData.Nombre || ''; // Cambiar a "Nombre" con mayúscula
+            const nombre = clienteData.Nombre || '';
             const dni = clienteData.DNI || '';
             const telefono = clienteData.Telefono || null;
             const email = clienteData.Email || null;
             const historialMedico = clienteData.HistorialMedico || null;
     
-            // Validar campos obligatorios
             if (!nombre.trim()) {
                 throw new Error('El nombre es obligatorio');
             }
@@ -79,34 +74,12 @@ class ClienteModel {
                 throw new Error('El DNI es obligatorio');
             }
     
-            // Verificar si el cliente existe
-            const [existingClient] = await db.query(
-                'SELECT ClienteID FROM Cliente WHERE ClienteID = ? AND deleted_at IS NULL',
-                [id]
+            await db.query(
+                'UPDATE Cliente SET Nombre = ?, DNI = ?, Telefono = ?, Email = ?, HistorialMedico = ?, updated_at = NOW() WHERE ClienteID = ?',
+                [nombre, dni, telefono, email, historialMedico, id]
             );
     
-            if (!existingClient || existingClient.length === 0) {
-                throw new Error('Cliente no encontrado');
-            }
-    
-            // Actualizar el cliente
-            const connection = await db.getConnection();
-            try {
-                await connection.beginTransaction();
-    
-                await connection.query(
-                    'UPDATE Cliente SET Nombre = ?, DNI = ?, Telefono = ?, Email = ?, HistorialMedico = ?, updated_at = NOW() WHERE ClienteID = ?',
-                    [nombre, dni, telefono, email, historialMedico, id]
-                );
-    
-                await connection.commit();
-                return true;
-            } catch (error) {
-                await connection.rollback();
-                throw error;
-            } finally {
-                connection.release();
-            }
+            return true;
         } catch (error) {
             throw error;
         }
