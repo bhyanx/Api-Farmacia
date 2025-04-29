@@ -25,7 +25,7 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 
-// Middleware para manejar CORS y JSON
+// Manejo de CORS y JSON
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
