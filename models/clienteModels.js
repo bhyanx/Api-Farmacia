@@ -31,11 +31,11 @@ class ClienteModel {
             const clienteData = data.clienteData;
 
             // Extraer datos con valores por defecto
-            const nombre = clienteData.nombre || '';
+            const nombre = clienteData.Nombre || '';
             const dni = clienteData.DNI || '';
-            const telefono = clienteData.telefono || null;
-            const email = clienteData.email || null;
-            const historialMedico = clienteData.historialMedico || null;
+            const telefono = clienteData.Telefono || null;
+            const email = clienteData.Email || null;
+            const historialMedico = clienteData.HistorialMedico || null;
 
             // Validar campos obligatorios
             if (!nombre.trim()) {
