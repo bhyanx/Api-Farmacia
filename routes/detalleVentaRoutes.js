@@ -2,19 +2,12 @@ const express = require('express');
 const router = express.Router();
 const detalleVentaController = require('../controllers/detalleVentaController');
 
-// Obtener todos los detalles de venta
-router.get('/', detalleVentaController.getAllDetallesVenta);
+router.get('/', detalleVentaController.getAllDetallesVenta); // Obtener todos los detalles de venta
+router.get('/venta/:ventaId', detalleVentaController.getAllDetallesByVentaId); // Obtener detalles de venta por ID de venta
+router.get('/:id', detalleVentaController.getDetalleVentaById); // Obtener un detalle de venta por ID
+router.post('/', detalleVentaController.createDetalleVenta); // Crear un nuevo detalle de venta
+router.put('/:id', detalleVentaController.updateDetalleVenta); // Actualizar un detalle de venta
+router.delete('/:id', detalleVentaController.deleteDetalleVenta); // Eliminar un detalle de venta
 
-// Obtener un detalle de venta por ID
-router.get('/:id', detalleVentaController.getDetalleVentaById);
-
-// Crear un nuevo detalle de venta
-router.post('/', detalleVentaController.createDetalleVenta);
-
-// Actualizar un detalle de venta por ID
-router.put('/:id', detalleVentaController.updateDetalleVenta);
-
-// Eliminar un detalle de venta por ID
-router.delete('/:id', detalleVentaController.deleteDetalleVenta);
 
 module.exports = router;

@@ -3,13 +3,12 @@ const db = require('../config/database');
 class DetalleCompraModel {
     static async getAllDetallesCompra() {
         try {
-            const [rows] = await db.query('SELECT * FROM DetalleCompra ',);
+            const [rows] = await db.query('SELECT * FROM DetalleCompra');
             return rows;
         } catch (error) {
             throw error;
         }
     }
-
 
     static async getAllDetallesByCompraId(compraId) {
         try {

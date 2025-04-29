@@ -1,6 +1,7 @@
 const db = require('../config/database');
 
 class VentaModel {
+    // Obtener todas las ventas
     static async getAllVentas() {
         try {
             const [rows] = await db.query(`
@@ -15,6 +16,7 @@ class VentaModel {
         }
     }
 
+    // Obtener una venta por ID
     static async getVentaById(id) {
         try {
             const [rows] = await db.query(`
@@ -29,6 +31,7 @@ class VentaModel {
         }
     }
 
+    // Crear una nueva venta
     static async createVenta(ventaData) {
         try {
             if (!ventaData || typeof ventaData !== 'object') {
@@ -51,6 +54,7 @@ class VentaModel {
         }
     }
 
+    // Actualizar una venta
     static async updateVenta(id, ventaData) {
         try {
             if (!ventaData || typeof ventaData !== 'object') {
@@ -73,6 +77,7 @@ class VentaModel {
         }
     }
 
+    // Eliminar una venta (eliminación lógica)
     static async deleteVenta(id) {
         try {
             await db.query('UPDATE Venta SET deleted_at = NOW() WHERE VentaID = ?', [id]);
@@ -82,6 +87,7 @@ class VentaModel {
         }
     }
 
+    // Obtener ventas por cliente
     static async getVentasByCliente(clienteId) {
         try {
             const [rows] = await db.query(`

@@ -1,6 +1,6 @@
 const DetalleVenta = require('../models/detalleVentaModels');
 
-// Get all sale details
+// Obtener todos los detalles de venta
 exports.getAllDetallesVenta = async (req, res) => {
     try {
         const detalles = await DetalleVenta.getAllDetallesVenta();
@@ -10,7 +10,17 @@ exports.getAllDetallesVenta = async (req, res) => {
     }
 };
 
-// Get sale detail by ID
+// Obtener todos los detalles de venta por ID de venta
+exports.getAllDetallesByVentaId = async (req, res) => {
+    try {
+        const detalles = await DetalleVenta.getAllDetallesByVentaId(req.params.ventaId);
+        res.status(200).json({ success: true, data: detalles });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error al obtener los detalles de venta por ID de venta', error: error.message });
+    }
+};
+
+// Obtener un detalle de venta por ID
 exports.getDetalleVentaById = async (req, res) => {
     try {
         const detalle = await DetalleVenta.getDetalleVentaById(req.params.id);
@@ -23,7 +33,7 @@ exports.getDetalleVentaById = async (req, res) => {
     }
 };
 
-// Create new sale detail
+// Crear un nuevo detalle de venta
 exports.createDetalleVenta = async (req, res) => {
     try {
         const detalleId = await DetalleVenta.createDetalleVenta(req.body);
@@ -33,7 +43,7 @@ exports.createDetalleVenta = async (req, res) => {
     }
 };
 
-// Update sale detail
+// Actualizar un detalle de venta
 exports.updateDetalleVenta = async (req, res) => {
     try {
         const success = await DetalleVenta.updateDetalleVenta(req.params.id, req.body);
@@ -46,7 +56,7 @@ exports.updateDetalleVenta = async (req, res) => {
     }
 };
 
-// Delete sale detail
+// Eliminar un detalle de venta
 exports.deleteDetalleVenta = async (req, res) => {
     try {
         const success = await DetalleVenta.deleteDetalleVenta(req.params.id);
@@ -57,4 +67,14 @@ exports.deleteDetalleVenta = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error al eliminar el detalle de venta', error: error.message });
     }
-}; 
+};
+
+// Obtener detalles de venta con información del producto
+exports.getDetallesConProductoInfo = async (req, res) => {
+    try {
+        const detalles = await DetalleVenta.getDetallesConProductoInfo(req.params.ventaId);
+        res.status(200).json({ success: true, data: detalles });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error al obtener los detalles de venta con información del producto', error: error.message });
+    }
+};

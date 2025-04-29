@@ -1,28 +1,11 @@
-const Venta = require('../models/ventaModels');
-const Cliente = require('../models/clienteModels');
+const VentaModel = require('../models/ventaModels');
 
 const ventaController = {
-    // Crear una nueva venta
-    async create(req, res) {
-        try {
-            const venta = await Venta.create(req.body);
-            res.status(201).json(venta);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    },
-
     // Obtener todas las ventas
     async getAll(req, res) {
         try {
-            const ventas = await Venta.getAllVentas({
-                where: { deleted_at: null },
-                include: [{
-                    model: Cliente,
-                    attributes: ['Nombre', 'DNI']
-                }]
-            });
-            res.json(ventas);
+            const ventas = await VentaModel.getAllVentas();
+            res.status(200).json(ventas);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -31,30 +14,34 @@ const ventaController = {
     // Obtener una venta por ID
     async getById(req, res) {
         try {
-            const venta = await Venta.findByPk(req.params.id, {
-                include: [{
-                    model: Cliente,
-                    attributes: ['Nombre', 'DNI']
-                }]
-            });
+            const venta = await VentaModel.getVentaById(req.params.id);
             if (!venta) {
                 return res.status(404).json({ error: 'Venta no encontrada' });
             }
-            res.json(venta);
+            res.status(200).json(venta);
         } catch (error) {
             res.status(500).json({ error: error.message });
+        }
+    },
+
+    // Crear una nueva venta
+    async create(req, res) {
+        try {
+            const ventaId = await VentaModel.createVenta(req.body);
+            res.status(201).json({ message: 'Venta creada exitosamente', ventaId });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
         }
     },
 
     // Actualizar una venta
     async update(req, res) {
         try {
-            const venta = await Venta.findByPk(req.params.id);
-            if (!venta) {
+            const success = await VentaModel.updateVenta(req.params.id, req.body);
+            if (!success) {
                 return res.status(404).json({ error: 'Venta no encontrada' });
             }
-            await venta.update(req.body);
-            res.json(venta);
+            res.status(200).json({ message: 'Venta actualizada exitosamente' });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -63,12 +50,11 @@ const ventaController = {
     // Eliminar una venta (soft delete)
     async delete(req, res) {
         try {
-            const venta = await Venta.findByPk(req.params.id);
-            if (!venta) {
+            const success = await VentaModel.deleteVenta(req.params.id);
+            if (!success) {
                 return res.status(404).json({ error: 'Venta no encontrada' });
             }
-            await venta.destroy();
-            res.json({ message: 'Venta eliminada correctamente' });
+            res.status(200).json({ message: 'Venta eliminada correctamente' });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -77,21 +63,12 @@ const ventaController = {
     // Obtener ventas por cliente
     async getByCliente(req, res) {
         try {
-            const ventas = await Venta.findAll({
-                where: {
-                    ClienteID: req.params.clienteId,
-                    deleted_at: null
-                },
-                include: [{
-                    model: Cliente,
-                    attributes: ['Nombre', 'DNI']
-                }]
-            });
-            res.json(ventas);
+            const ventas = await VentaModel.getVentasByCliente(req.params.clienteId);
+            res.status(200).json(ventas);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
 };
 
-module.exports = ventaController; 
+module.exports = ventaController;

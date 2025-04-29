@@ -1,10 +1,9 @@
 const db = require('../config/database');
 
 class DetalleVentaModel {
-
     static async getAllDetallesVenta() {
         try {
-            const [rows] = await db.query('SELECT * FROM DetalleVenta',);
+            const [rows] = await db.query('SELECT * FROM DetalleVenta');
             return rows;
         } catch (error) {
             throw error;

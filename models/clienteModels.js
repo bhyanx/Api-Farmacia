@@ -1,6 +1,7 @@
 const db = require('../config/database');
 
 class ClienteModel {
+    // Obtener todos los clientes
     static async getAllClientes() {
         try {
             const [rows] = await db.query('SELECT * FROM Cliente WHERE deleted_at IS NULL');
@@ -10,6 +11,7 @@ class ClienteModel {
         }
     }
 
+    // Obtener un cliente por ID
     static async getClienteById(id) {
         try {
             const [rows] = await db.query('SELECT * FROM Cliente WHERE ClienteID = ? AND deleted_at IS NULL', [id]);
@@ -19,9 +21,9 @@ class ClienteModel {
         }
     }
 
+    // Crear un nuevo cliente
     static async createCliente(data) {
         try {
-            // Validación básica de los datos
             if (!data || !data.clienteData) {
                 throw new Error('No se proporcionaron datos del cliente');
             }
@@ -53,9 +55,9 @@ class ClienteModel {
         }
     }
 
+    // Actualizar un cliente
     static async updateCliente(id, data) {
         try {
-            // Validación básica de los datos
             if (!data || !data.clienteData) {
                 throw new Error('No se proporcionaron datos para actualizar');
             }
@@ -77,7 +79,7 @@ class ClienteModel {
                 throw new Error('El DNI es obligatorio');
             }
 
-            // Primero verificamos si el cliente existe
+            // Verificar si el cliente existe
             const [existingClient] = await db.query(
                 'SELECT ClienteID FROM Cliente WHERE ClienteID = ? AND deleted_at IS NULL',
                 [id]
@@ -87,7 +89,7 @@ class ClienteModel {
                 throw new Error('Cliente no encontrado');
             }
 
-            // Realizamos la actualización en una transacción separada
+            // Actualizar el cliente
             const connection = await db.getConnection();
             try {
                 await connection.beginTransaction();
@@ -110,12 +112,13 @@ class ClienteModel {
         }
     }
 
+    // Eliminar un cliente (eliminación lógica)
     static async deleteCliente(id) {
         try {
             const connection = await db.getConnection();
             try {
                 await connection.beginTransaction();
-                
+
                 await connection.query(
                     'UPDATE Cliente SET deleted_at = NOW() WHERE ClienteID = ?',
                     [id]
@@ -135,4 +138,4 @@ class ClienteModel {
     }
 }
 
-module.exports = ClienteModel; 
+module.exports = ClienteModel;
