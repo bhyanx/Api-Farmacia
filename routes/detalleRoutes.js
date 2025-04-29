@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const detalleController = require('../controllers/detalleController');
+const detalleCompraController = require('../controllers/detalleController');
 
 // Rutas para DetalleCompra
 router.get('/', detalleCompraController.getAllDetallesCompra); // Obtener todos los detalles de compra
