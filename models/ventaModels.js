@@ -97,4 +97,4 @@ class VentaModel {
     }
 }
 
-module.exports = VentaModel; 
+module.exports = VentaModel;
