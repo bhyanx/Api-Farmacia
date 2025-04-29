@@ -4,7 +4,16 @@ class ProductoProveedorModel {
     // Obtener todos los registros de ProductoProveedor
     static async getAllProductoProveedores() {
         try {
-            const [rows] = await db.query('SELECT * FROM ProductoProveedor');
+            const [rows] = await db.query(`
+                SELECT 
+                    prod.ProductoID, 
+                    producto.NombreGenerico, 
+                    prod.ProveedorID, 
+                    proveedor.Nombre
+                FROM ProductoProveedor prod
+                INNER JOIN railway.Producto producto ON prod.ProductoID = producto.ProductoID
+                INNER JOIN railway.Proveedor proveedor ON prod.ProveedorID = proveedor.ProveedorID
+            `);
             return rows;
         } catch (error) {
             throw error;
