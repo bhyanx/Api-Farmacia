@@ -4,7 +4,20 @@ class CompraModel {
     // Obtener todas las compras
     static async getAllCompras() {
         try {
-            const [rows] = await db.query('SELECT * FROM Compra WHERE deleted_at IS NULL');
+            const [rows] = await db.query(`
+                SELECT 
+                    c.CompraID, 
+                    c.ProveedorID, 
+                    prov.Nombre AS ProveedorNombre, 
+                    c.FechaCompra, 
+                    c.FechaEntrega, 
+                    c.Total, 
+                    c.Estado, 
+                    c.created_at
+                FROM Compra c
+                INNER JOIN railway.Proveedor prov ON c.ProveedorID = prov.ProveedorID
+                WHERE c.deleted_at IS NULL
+            `);
             return rows;
         } catch (error) {
             throw error;
@@ -14,7 +27,20 @@ class CompraModel {
     // Obtener una compra por ID
     static async getCompraById(id) {
         try {
-            const [rows] = await db.query('SELECT * FROM Compra WHERE CompraID = ? AND deleted_at IS NULL', [id]);
+            const [rows] = await db.query(`
+                SELECT 
+                    c.CompraID, 
+                    c.ProveedorID, 
+                    prov.Nombre AS ProveedorNombre, 
+                    c.FechaCompra, 
+                    c.FechaEntrega, 
+                    c.Total, 
+                    c.Estado, 
+                    c.created_at
+                FROM Compra c
+                INNER JOIN railway.Proveedor prov ON c.ProveedorID = prov.ProveedorID
+                WHERE c.CompraID = ? AND c.deleted_at IS NULL
+            `, [id]);
             return rows[0];
         } catch (error) {
             throw error;

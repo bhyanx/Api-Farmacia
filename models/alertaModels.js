@@ -4,7 +4,17 @@ class AlertaModel {
     // Obtener todas las alertas
     static async getAllAlertas() {
         try {
-            const [rows] = await db.query('SELECT * FROM Alerta');
+            const [rows] = await db.query(`
+            SELECT 
+                a.AlertaID, 
+                a.ProductoID, 
+                prod.Nombre, 
+                a.Tipo, 
+                a.FechaGeneracion, 
+                a.Estado
+            FROM Alerta a
+            INNER JOIN railway.Producto prod ON a.ProductoID = prod.ProductoID
+        `);
             return rows;
         } catch (error) {
             throw error;
@@ -14,7 +24,18 @@ class AlertaModel {
     // Obtener una alerta por ID
     static async getAlertaById(id) {
         try {
-            const [rows] = await db.query('SELECT * FROM Alerta WHERE AlertaID = ?', [id]);
+            const [rows] = await db.query(`
+                SELECT 
+                    a.AlertaID, 
+                    a.ProductoID, 
+                    prod.Nombre, 
+                    a.Tipo, 
+                    a.FechaGeneracion, 
+                    a.Estado
+                FROM Alerta a
+                INNER JOIN railway.Producto prod ON a.ProductoID = prod.ProductoID
+                WHERE a.AlertaID = ?
+            `, [id]);
             return rows[0];
         } catch (error) {
             throw error;
