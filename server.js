@@ -10,8 +10,11 @@ const detalleVentaRouter = require('./routes/detalleVentaRoutes');
 const detalleRouter = require('./routes/detalleRoutes');
 const productoRouter = require('./routes/productoRoutes');
 const compraRouter = require('./routes/compraRoutes');
-//const categoriaRouter = require('./routes/categoriaRoutes');
-//const proveedorRouter = require('./routes/proveedorRoutes');
+const proveedorRouter = require('./routes/proveedorRoutes');
+const productoProveedorRouter = require('./routes/productoProveedorRoutes');
+const recetaRouter = require('./routes/recetaRoutes');
+const detalleRecetaRouter = require('./routes/detalleRecetaRoutes');
+const alertaRouter = require('./routes/alertaRoutes');
 const clienteRouter = require('./routes/clienteRoutes');
 
 const app = express();
@@ -33,9 +36,12 @@ app.use('/api/Ventas', ventaRouter);
 app.use('/api/DetalleVentas', detalleVentaRouter);
 app.use('/api/Detalles', detalleRouter);
 app.use('/api/Productos', productoRouter);
-app.use('/api/Compras', compraRouter);
-//app.use('/api/Categorias', categoriaRouter);
-//app.use('/api/Proveedores', proveedorRouter);
+app.use('/api/DetalleCompras', compraRouter);
+app.use('/api/Proveedores', proveedorRouter);
+app.use('/api/ProductoProveedores', productoProveedorRouter);
+app.use('/api/Recetas', recetaRouter);
+app.use('/api/DetalleRecetas', detalleRecetaRouter);
+app.use('/api/Alertas', alertaRouter);
 app.use('/api/Clientes', clienteRouter);
 
 //RUTA DE PRUEBA
