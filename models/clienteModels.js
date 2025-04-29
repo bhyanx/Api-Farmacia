@@ -54,7 +54,6 @@ class ClienteModel {
             throw error;
         }
     }
-
     // Actualizar un cliente
     static async updateCliente(id, data) {
         try {
