@@ -2,7 +2,7 @@ const ClienteModel = require('../models/clienteModels');
 
 const clienteController = {
     // Crear un nuevo cliente
-    async create(req, res) {
+    async createClientes(req, res) {
         try {
             const result = await ClienteModel.createCliente(req.body);
             res.status(201).json({ 
@@ -15,7 +15,7 @@ const clienteController = {
     },
 
     // Obtener todos los clientes
-    async getAll(req, res) {
+    async getAllClientes(req, res) {
         try {
             const clientes = await ClienteModel.getAllClientes();
             res.json(clientes);
@@ -25,7 +25,7 @@ const clienteController = {
     },
 
     // Obtener un cliente por ID
-    async getById(req, res) {
+    async getByIdClientes(req, res) {
         try {
             const cliente = await ClienteModel.getClienteById(req.params.id);
             if (!cliente) {
@@ -38,7 +38,7 @@ const clienteController = {
     },
 
     // Actualizar un cliente
-    async update(req, res) {
+    async updateClientes(req, res) {
         try {
             const cliente = await ClienteModel.getClienteById(req.params.id);
             if (!cliente) {
@@ -58,7 +58,7 @@ const clienteController = {
     },
 
     // Eliminar un cliente (soft delete)
-    async delete(req, res) {
+    async deleteClientes(req, res) {
         try {
             const cliente = await ClienteModel.getClienteById(req.params.id);
             if (!cliente) {

@@ -5,18 +5,18 @@ const clienteController = require('../controllers/clienteController');
 // Rutas para Clientes
 
 // Crear un nuevo cliente
-router.post('/', clienteController.create);
+router.post('/', clienteController.createClientes);
 
 // Obtener todos los clientes
-router.get('/', clienteController.getAll);
+router.get('/', clienteController.getAllClientes);
 
 // Obtener un cliente por ID
-router.get('/:id', clienteController.getById);
+router.get('/:id', clienteController.getByIdClientes);
 
 // Actualizar un cliente
-router.put('/:id', clienteController.update);
+router.put('/:id', clienteController.updateClientes);
 
 // Eliminar un cliente (soft delete)
-router.delete('/:id', clienteController.delete);
+router.delete('/:id', clienteController.deleteClientes);
 
 module.exports = router; 
