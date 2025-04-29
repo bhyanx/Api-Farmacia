@@ -4,7 +4,7 @@ class ProductoProveedorModel {
     // Obtener todos los registros de ProductoProveedor
     static async getAllProductoProveedores() {
         try {
-            const [rows] = await db.query('SELECT * FROM vista_producto_proveedor');
+            const [rows] = await db.query('SELECT * FROM ProductoProveedor');
             return rows;
         } catch (error) {
             throw error;
