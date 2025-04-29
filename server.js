@@ -5,6 +5,12 @@ const db = require('./config/database');
 
 // IMPORTAR NUESTRAS RUTAS
 const usuarioRouter = require('./routes/usuarioRoutes');
+const ventaRouter = require('./routes/ventaRoutes');
+const detalleVentaRouter = require('./routes/detalleVentaRoutes');
+//const productoRouter = require('./routes/productoRoutes');
+//const categoriaRouter = require('./routes/categoriaRoutes');
+const proveedorRouter = require('./routes/proveedorRoutes');
+const clienteRouter = require('./routes/clienteRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 55003;
@@ -21,6 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // USO DE RUTAS
 app.use('/api/Usuarios', usuarioRouter);
+app.use('/api/Ventas', ventaRouter);
+app.use('/api/DetalleVentas', detalleVentaRouter);
+//app.use('/api/Productos', productoRouter);
+//app.use('/api/Categorias', categoriaRouter);
+app.use('/api/Proveedores', proveedorRouter);
+app.use('/api/Clientes', clienteRouter);
 
 //RUTA DE PRUEBA
 app.get('/', (req, res) => {
