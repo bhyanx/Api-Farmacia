@@ -61,16 +61,16 @@ class ClienteModel {
             if (!data || !data.clienteData) {
                 throw new Error('No se proporcionaron datos para actualizar');
             }
-
+    
             const clienteData = data.clienteData;
-
+    
             // Extraer datos con valores por defecto
-            const nombre = clienteData.nombre || '';
+            const nombre = clienteData.Nombre || ''; // Cambiar a "Nombre" con mayúscula
             const dni = clienteData.DNI || '';
-            const telefono = clienteData.telefono || null;
-            const email = clienteData.email || null;
-            const historialMedico = clienteData.historialMedico || null;
-
+            const telefono = clienteData.Telefono || null;
+            const email = clienteData.Email || null;
+            const historialMedico = clienteData.HistorialMedico || null;
+    
             // Validar campos obligatorios
             if (!nombre.trim()) {
                 throw new Error('El nombre es obligatorio');
@@ -78,27 +78,27 @@ class ClienteModel {
             if (!dni.trim()) {
                 throw new Error('El DNI es obligatorio');
             }
-
+    
             // Verificar si el cliente existe
             const [existingClient] = await db.query(
                 'SELECT ClienteID FROM Cliente WHERE ClienteID = ? AND deleted_at IS NULL',
                 [id]
             );
-
+    
             if (!existingClient || existingClient.length === 0) {
                 throw new Error('Cliente no encontrado');
             }
-
+    
             // Actualizar el cliente
             const connection = await db.getConnection();
             try {
                 await connection.beginTransaction();
-
+    
                 await connection.query(
                     'UPDATE Cliente SET Nombre = ?, DNI = ?, Telefono = ?, Email = ?, HistorialMedico = ?, updated_at = NOW() WHERE ClienteID = ?',
                     [nombre, dni, telefono, email, historialMedico, id]
                 );
-
+    
                 await connection.commit();
                 return true;
             } catch (error) {
