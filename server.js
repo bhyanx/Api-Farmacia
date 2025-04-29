@@ -7,9 +7,10 @@ const db = require('./config/database');
 const usuarioRouter = require('./routes/usuarioRoutes');
 const ventaRouter = require('./routes/ventaRoutes');
 const detalleVentaRouter = require('./routes/detalleVentaRoutes');
+const detalleRouter = require('./routes/detalleRoutes');
 //const productoRouter = require('./routes/productoRoutes');
 //const categoriaRouter = require('./routes/categoriaRoutes');
-const proveedorRouter = require('./routes/proveedorRoutes');
+//const proveedorRouter = require('./routes/proveedorRoutes');
 const clienteRouter = require('./routes/clienteRoutes');
 
 const app = express();
@@ -29,9 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/Usuarios', usuarioRouter);
 app.use('/api/Ventas', ventaRouter);
 app.use('/api/DetalleVentas', detalleVentaRouter);
+app.use('/api/Detalles', detalleRouter);
 //app.use('/api/Productos', productoRouter);
 //app.use('/api/Categorias', categoriaRouter);
-app.use('/api/Proveedores', proveedorRouter);
+//app.use('/api/Proveedores', proveedorRouter);
 app.use('/api/Clientes', clienteRouter);
 
 //RUTA DE PRUEBA
