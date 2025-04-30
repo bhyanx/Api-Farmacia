@@ -21,9 +21,17 @@ const app = express();
 const PORT = process.env.PORT || 55003;
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:55003',
+    origin: [
+        'http://localhost:5173',   // Vite dev server (tu frontend React)
+        'http://localhost:55003',  // API local (por si usas doble entorno)
+        'https://tu-frontend-en-vercel.vercel.app' // <-- si ya lo tienes desplegado
+    ],
+    credentials: true,
     optionsSuccessStatus: 200
 };
+
+app.use(cors(corsOptions));
+
 
 // Manejo de CORS y JSON
 app.use(cors(corsOptions));
