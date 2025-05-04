@@ -30,12 +30,24 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 
-app.use(cors(corsOptions));
+// Configuración de body-parser con manejo de errores
+app.use(express.json({
+    verify: (req, res, buf, encoding) => {
+        if (buf && buf.length) {
+            try {
+                JSON.parse(buf);
+            } catch (e) {
+                res.status(400).json({
+                    success: false,
+                    message: 'JSON inválido',
+                    error: e.message
+                });
+                throw new Error('JSON inválido');
+            }
+        }
+    }
+}));
 
-
-// Manejo de CORS y JSON
-app.use(cors(corsOptions));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // USO DE RUTAS
@@ -54,14 +66,17 @@ app.use('/api/Clientes', clienteRouter);
 
 //RUTA DE PRUEBA
 app.get('/', (req, res) => {
-    res.json ({ message: 'API is running' });
+    res.json({ message: 'API is running' });
 });
 
 // RUTAS PARA MANEJO DE ERRORES
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Error en el servidor',
-    message: err.message });
+    console.error('Error en el servidor:', err);
+    res.status(500).json({ 
+        success: false,
+        message: 'Error en el servidor',
+        error: err.message 
+    });
 });
 
 (async () => {
